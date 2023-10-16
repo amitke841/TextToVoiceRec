@@ -6,13 +6,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class test extends JFrame {
+public class MainTest extends JFrame {
     private JTextArea textArea;
     private JButton nextButton;
     private BufferedReader reader;
     private String currentLine;
 
-    public test (String fileName) {
+    public MainTest (String fileName) {
         super("Text To Voice");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 550);
