@@ -1,12 +1,15 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 //import java.util.*;
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class MainWIndow {
+public class MainWIndow extends JFrame {
     public static void main(String[] args) {
 
         String InputText = "Some Text";
@@ -19,10 +22,10 @@ public class MainWIndow {
         frame.setLocationRelativeTo(null); // Center the window on the screen
         frame.setLayout(null); // Set the layout to null
         frame.getContentPane().setBackground(Color.decode("#383838")); // Set the background color to red
-        
+
         JLabel WindowTitle = new JLabel("Text To Voice");
         //label.setFont(new Font("Arial", Font.BOLD, 16));
-        //label.setHorizontalAlignment(JLabel.CENTER); // Center the text
+        //label.setHorizontalAlignment(JLabel.CENTER);
         WindowTitle.setBounds(10, 10, 100, 20); // Set the position and size of the label
         JPanel InputTextPanel = new JPanel();
         InputTextPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));

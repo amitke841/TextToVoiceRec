@@ -1,0 +1,47 @@
+    private JLabel InputText;
+    private JButton nextButton;
+    private List<String> lines;
+    private int currentIndex;
+
+    public TextFileReaderApp() {
+        setTitle("Text File Reader");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        InputText = new JLabel("");
+        nextButton = new JButton("Next Line");
+
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showNextLine();
+            }
+        });
+
+        lines = new ArrayList<>();
+        currentIndex = 0;
+
+        // Read lines from a text file and store them in the 'lines' list
+        try (BufferedReader reader = new BufferedReader(new FileReader("your_text_file.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void showNextLine() {
+        if (currentIndex < lines.size()) {
+            InputText.setText(lines.get(currentIndex));
+            currentIndex++;
+        } else {
+            InputText.setText("End of file reached.");
+            nextButton.setEnabled(false);
+        }
+    }
+
