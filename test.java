@@ -14,8 +14,6 @@ public class test extends JFrame {
 
     public test (String fileName) {
         super("Text To Voice");
-        Font font = new Font("Arial", Font.PLAIN, 24);
-        super.setFont(font);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 550);
         setLocationRelativeTo(null);
