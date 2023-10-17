@@ -77,7 +77,7 @@ public class MainTest extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            test app = new test("DATA/data.txt");
+            MainTest app = new MainTest("DATA/data.txt");
             app.setVisible(true);
         });
     }
