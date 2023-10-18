@@ -9,6 +9,10 @@ import java.io.IOException;
 public class MainTest extends JFrame {
     private JTextArea textArea;
     private JButton nextButton;
+    private JButton RecButton;
+    private JButton StopButton;
+    private JButton PlayButton;
+    private JButton PauseButton;
     private BufferedReader reader;
     private String currentLine;
 
@@ -31,9 +35,10 @@ public class MainTest extends JFrame {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setBounds(70, 100, 350, 150);
-
-        nextButton = new JButton("Next Line");
-        nextButton.setBounds(70, 260, 100, 30);
+        
+        int BP = 50;
+        nextButton = new JButton("Next Line & Save");
+        nextButton.setBounds(BP, 260, 150, 30);
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,10 +74,28 @@ public class MainTest extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        RecButton = new JButton("Start Rec");
+        //RecButton.setBounds(BP + 80, 260, 80, 30);
+
+        StopButton = new JButton("Stop Rec");
+        //StopButton.setBounds(BP + 80, 260, 80, 30);
+
+        PlayButton = new JButton("Play");
+        //PlayButton.setBounds(BP + 80, 260, 80, 30);
+
+        PauseButton = new JButton("Pause");
+        //PlayButton.setBounds(BP + 80, 260, 80, 30);
+
 
         add(windowTitle);
         add(textArea);
         add(nextButton);
+        add(RecButton);
+        add(StopButton);
+        add(PlayButton);
+        add(PauseButton);
+
     }
 
     public static void main(String[] args) {
