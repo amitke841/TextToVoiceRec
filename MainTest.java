@@ -74,12 +74,12 @@ public class MainTest extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         RecButton = new JButton("Start Rec");
-        //RecButton.setBounds(BP + 80, 260, 80, 30);
+        RecButton.setBounds(BP + 160, 260, 80, 30);
 
         StopButton = new JButton("Stop Rec");
-        //StopButton.setBounds(BP + 80, 260, 80, 30);
+        StopButton.setBounds(BP + 250, 260, 80, 30);
 
         PlayButton = new JButton("Play");
         //PlayButton.setBounds(BP + 80, 260, 80, 30);
