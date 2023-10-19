@@ -1,5 +1,3 @@
-package recordtest;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -8,8 +6,8 @@ import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.*;
-import javax.sound.sampled.Dataline;
+
+import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.swing.JOptionPane;
 
@@ -19,12 +17,12 @@ public class RecordTest {
     public static void main(String[] args) {
         try {
             AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
-            Dataline.Info dataInfo = new Dataline. Info (TargetDataLine. class, audioFormat);
-            if (!AudioSystem. islineSupported (dataInfo))
+            SourceDataLine.Info dataInfo = new SourceDataLine. Info (TargetDataLine. class, audioFormat);
+            if (!AudioSystem.isLineSupported (dataInfo))
             {
             System.out.println("Not supported");
             }
-            TargetDataLine targetline = (TargetDataline) Audiosystem.getLine(dataInfo);
+            TargetDataLine targetLine = (TargetDataLine) AudioSystem.getLine(dataInfo);
             targetLine.open(audioFormat);
         } catch (Exception e) {
             // TODO: handle exception
@@ -32,6 +30,8 @@ public class RecordTest {
     }
 
 }
+
+
 
 
 
