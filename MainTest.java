@@ -118,6 +118,8 @@ public class MainTest extends JFrame {
                 {
                     @Override public void run()
                     {
+                        nextButton.setEnabled(false);
+                        RecButton.setEnabled(false);
                         AudioInputStream recordingStream = new AudioInputStream (targetLine);
                         File outputFile = new File ("DATA/recordings/data" + currentLineFile + ".wav");
                         try {
@@ -137,6 +139,8 @@ public class MainTest extends JFrame {
         StopButton.setBounds(BP + 250, 260, 80, 30);
         StopButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
+                nextButton.setEnabled(true);
+                RecButton.setEnabled(true);
                 targetLine.stop();
                 targetLine.close();
             }
