@@ -20,9 +20,10 @@ public class MainTest extends JFrame {
     private AudioFormat audioFormat;
     private SourceDataLine.Info dataInfo;
     private TargetDataLine targetLine; 
+    private int currentLineFile = 0;
+
 
     public MainTest (String fileName) {
-
         // open text file with prompts
         try {
             reader = new BufferedReader(new FileReader(fileName));
@@ -111,13 +112,14 @@ public class MainTest extends JFrame {
         RecButton.setBounds(BP + 160, 260, 80, 30);
         RecButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
+                currentLineFile = currentLineFile + 1;
                 targetLine.start ();
                 Thread audioRecorderTnread = new Thread()
                 {
                     @Override public void run()
                     {
                         AudioInputStream recordingStream = new AudioInputStream (targetLine);
-                        File outputFile = new File ("record.wav");
+                        File outputFile = new File ("DATA/recordings/data" + currentLineFile + ".wav");
                         try {
                             AudioSystem.write (recordingStream, AudioFileFormat. Type.WAVE, outputFile);
                         } catch (IOException ex) {
