@@ -21,6 +21,7 @@ public class MainTest extends JFrame {
     private SourceDataLine.Info dataInfo;
     private TargetDataLine targetLine; 
     private int currentLineFile = 0;
+    private int Endreached = 0;
 
 
     public MainTest (String fileName) {
@@ -83,6 +84,7 @@ public class MainTest extends JFrame {
                     if (currentLine != null) {
                         textArea.setText(currentLine);
                     } else {
+                        Endreached = 1;
                         textArea.setForeground(Color.RED);
                         textArea.setText("--  End of file reached.  --");
                         nextButton.setEnabled(false);
@@ -92,20 +94,6 @@ public class MainTest extends JFrame {
                 }
             }
         });
-
-  
-
-        // try {
-        //     currentLine = reader.readLine();
-        //     if (currentLine != null) {
-        //         textArea.setText(currentLine);
-        //     } else {
-        //         textArea.setText("File is empty.");
-        //         nextButton.setEnabled(false);
-        //     }
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
 
         // record button
         RecButton = new JButton("Start Rec");
@@ -139,10 +127,14 @@ public class MainTest extends JFrame {
         StopButton.setBounds(BP + 250, 260, 80, 30);
         StopButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                nextButton.setEnabled(true);
-                RecButton.setEnabled(true);
                 targetLine.stop();
                 targetLine.close();
+                if (Endreached == 1) {
+                    nextButton.setEnabled(false); 
+                } else {
+                    nextButton.setEnabled(true);
+                }
+                RecButton.setEnabled(true);
             }
         });
 
