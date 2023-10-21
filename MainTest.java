@@ -21,8 +21,8 @@ public class MainTest extends JFrame {
     private SourceDataLine.Info dataInfo;
     private TargetDataLine targetLine; 
     private int currentLineFile = 0;
-    private int Endreached = 0;
-
+    //private boolean endReached = false;
+    private Clip clip;
 
     public MainTest (String fileName) {
         // open text file with prompts
@@ -45,10 +45,16 @@ public class MainTest extends JFrame {
 
         try {
             targetLine = (TargetDataLine) AudioSystem.getLine(dataInfo);
-            targetLine.open(audioFormat);
         }
         catch (LineUnavailableException e) {
                 System.out.println(e);            
+        }
+
+        try {
+            // Load the audio file
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
         }
 
 
@@ -83,11 +89,15 @@ public class MainTest extends JFrame {
                     currentLine = reader.readLine();
                     if (currentLine != null) {
                         textArea.setText(currentLine);
+                        currentLineFile = currentLineFile + 1;
                     } else {
-                        Endreached = 1;
+                        //endReached = true;
                         textArea.setForeground(Color.RED);
-                        textArea.setText("--  End of file reached.  --");
                         nextButton.setEnabled(false);
+                        RecButton.setEnabled(false);
+                        StopButton.setEnabled(false);
+                        PlayButton.setEnabled(false);
+                        textArea.setText("--  End of file reached.  --");
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -97,17 +107,34 @@ public class MainTest extends JFrame {
 
         // record button
         RecButton = new JButton("Start Rec");
-        RecButton.setBounds(BP + 160, 260, 80, 30);
+        RecButton.setBounds(BP + 150, 260, 80, 30);
         RecButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                currentLineFile = currentLineFile + 1;
+                
+                if (clip != null) {
+                    // Stop the clip if it's playing
+                    if (clip.isRunning()) {
+                        clip.stop();
+                    }
+                    // Close the clip to release its resources
+                    clip.close();
+                }
+                
+                try {
+                    targetLine.open(audioFormat);
+                } catch (LineUnavailableException ex) {
+                    System.out.println(ex);
+                }
                 targetLine.start ();
+                
                 Thread audioRecorderTnread = new Thread()
                 {
                     @Override public void run()
                     {
+                        StopButton.setEnabled(true);
                         nextButton.setEnabled(false);
                         RecButton.setEnabled(false);
+                        PlayButton.setEnabled(false);
                         AudioInputStream recordingStream = new AudioInputStream (targetLine);
                         File outputFile = new File ("DATA/recordings/data" + currentLineFile + ".wav");
                         try {
@@ -124,26 +151,61 @@ public class MainTest extends JFrame {
 
         // stop button
         StopButton = new JButton("Stop Rec");
-        StopButton.setBounds(BP + 250, 260, 80, 30);
+        StopButton.setBounds(BP + 230, 260, 80, 30);
+        StopButton.setEnabled(false);
         StopButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
                 targetLine.stop();
                 targetLine.close();
-                if (Endreached == 1) {
-                    nextButton.setEnabled(false); 
-                } else {
-                    nextButton.setEnabled(true);
-                }
+                nextButton.setEnabled(true);
                 RecButton.setEnabled(true);
+                PlayButton.setEnabled(true);
+                StopButton.setEnabled(false);
             }
         });
 
 
         PlayButton = new JButton("Play");
-        //PlayButton.setBounds(BP + 80, 260, 80, 30);
+        PlayButton.setBounds(BP + 310, 260, 80, 30);
+        PlayButton.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
+                PauseButton.setEnabled(true);
+                String audioFilePath ="DATA/recordings/data" + currentLineFile + ".wav";
+                
+                if (clip != null) {
+                    // Stop the clip if it's playing
+                    if (clip.isRunning()) {
+                        clip.stop();
+                    }
+                    // Close the clip to release its resources
+                    clip.close();
+                    // Reacquire the clip and load the audio data again
+                    try {
+                        clip.open(AudioSystem.getAudioInputStream(new File(audioFilePath)));
+                    } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ee) {
+                        ee.printStackTrace();
+                    }
+                    // Start playing the clip again
+                    clip.start();
+                }                
+            }
+        });
 
-        PauseButton = new JButton("Pause");
-        //PlayButton.setBounds(BP + 80, 260, 80, 30);
+
+        // PauseButton = new JButton("Pause");
+        // PauseButton.setBounds(BP + 390, 260, 80, 30);
+        // PauseButton.setEnabled(false);
+        // PauseButton.addActionListener(new ActionListener() {
+        //     @Override public void actionPerformed(ActionEvent e) {
+        //         try {
+        //             clip.stop();
+        //             clip.close();
+        //         } catch (Exception ex) {
+        //             System.out.println(ex);
+        //         }
+        //     }
+        // });
+
 
         add(windowTitle);
         add(textArea);
@@ -151,7 +213,7 @@ public class MainTest extends JFrame {
         add(RecButton);
         add(StopButton);
         add(PlayButton);
-        add(PauseButton);
+       //add(PauseButton);
 
     }
 
