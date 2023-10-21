@@ -112,11 +112,9 @@ public class MainTest extends JFrame {
             @Override public void actionPerformed(ActionEvent e) {
                 
                 if (clip != null) {
-                    // Stop the clip if it's playing
                     if (clip.isRunning()) {
                         clip.stop();
                     }
-                    // Close the clip to release its resources
                     clip.close();
                 }
                 
@@ -173,19 +171,15 @@ public class MainTest extends JFrame {
                 String audioFilePath ="DATA/recordings/data" + currentLineFile + ".wav";
                 
                 if (clip != null) {
-                    // Stop the clip if it's playing
                     if (clip.isRunning()) {
                         clip.stop();
                     }
-                    // Close the clip to release its resources
                     clip.close();
-                    // Reacquire the clip and load the audio data again
                     try {
                         clip.open(AudioSystem.getAudioInputStream(new File(audioFilePath)));
                     } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ee) {
                         ee.printStackTrace();
                     }
-                    // Start playing the clip again
                     clip.start();
                 }                
             }
